@@ -1,0 +1,311 @@
+!DOCTYPE html
+html lang=ru
+head
+meta charset=UTF-8
+meta name=viewport content=width=device-width, initial-scale=1.0
+titleMoonAwak3title
+
+link href=httpsfonts.googleapis.comcss2family=Press+Start+2P&family=Interwght@300;400;600&display=swap rel=stylesheet
+
+style
+{margin0;padding0;box-sizingborder-box;}
+body{font-familyInter;background#0b0b14;colorwhite;overflow-xhidden;}
+canvas{positionfixed;top0;left0;z-index0;pointer-eventsnone;}
+
+ SIDEBAR 
+.sidebar{positionfixed;left0;top0;height100%;width70px;background#111122;padding-top120px;displayflex;flex-directioncolumn;transitionwidth .3s;z-index10;border-right 1px solid rgba(168, 85, 247, 0.2);}
+.sidebarhover{width210px;}
+.sidebar a{displayflex;align-itemscenter;gap12px;padding16px 20px;color#a855f7;text-decorationnone;transition.25s;cursorpointer;}
+.sidebar ahover{background#1c1c3a;color#f0c4ff;}
+.icon{width22px;height22px;displayflex;align-itemscenter;justify-contentcenter;}
+.icon svg{width20px;height20px;stroke#a855f7;stroke-width2;fillnone;opacity.6;transition.25s;}
+.sidebar ahover svg{opacity1;stroke#f0c4ff;transformscale(1.1);}
+.text{opacity0;transition.3s;white-spacenowrap;}
+.sidebarhover .text{opacity1;}
+
+ NAVBAR 
+nav{displayflex;justify-contentcenter;align-itemscenter;padding25px;backgroundrgba(17, 17, 34, 0.8);backdrop-filter blur(10px);border-bottom1px solid #2a2a4a;font-family'Press Start 2P';font-size14px;color#a855f7;positionsticky;top0;z-index15;}
+
+ HERO 
+.hero{text-aligncenter;padding160px 20px;positionrelative;z-index5;}
+.hero h1{font-size60px;margin-bottom20px;color#a855f7;font-family'Press Start 2P';text-shadow 0 0 15px rgba(168, 85, 247, 0.4);}
+.hero p{font-size20px;color#ddd;}
+.ip-box{margin-top40px;displayinline-flex;align-itemscenter;gap15px;background#191933;padding18px 30px;border-radius12px;border1px solid #3a3a66;transition 0.3s;}
+.ip-boxhover{border-color #a855f7;}
+.copy{background#9333ea;bordernone;padding10px 20px;border-radius8px;colorwhite;cursorpointer;transition.25s;}
+.copyhover{background#a855f7;transformtranslateY(-2px);}
+.online{margin-top15px;color#c4b5fd;font-family 'Press Start 2P'; font-size 10px;}
+
+ SECTIONS 
+.section{padding100px 10%;positionrelative;z-index5;opacity0;transformtranslateY(40px);transitionall 1s ease;}
+.section.show{opacity1;transformtranslateY(0);}
+.section h2{font-size32px;margin-bottom40px;font-family'Press Start 2P';color#a855f7;text-aligncenter;}
+
+ GRIDS 
+.grid{displaygrid;grid-template-columnsrepeat(auto-fit,minmax(250px,1fr));gap20px;}
+.card{background#16162b;border1px solid #2f2f55;padding30px;border-radius16px;transition.3s;height100%;displayflex;flex-directioncolumn;justify-contentspace-between;}
+.cardhover{transformtranslateY(-5px);border-color#9333ea;box-shadow0 10px 30px rgba(0,0,0,0.3);}
+.btn{displayblock;margin-top20px;background#9333ea;padding12px;border-radius8px;colorwhite;text-decorationnone;text-aligncenter;font-weight600;transition.25s;bordernone;cursorpointer;width100%;}
+.btnhover{background#a855f7;}
+
+ TEAM GRID 
+.team-grid{displaygrid;grid-template-columnsrepeat(auto-fit,minmax(280px,1fr));gap30px;margin-top50px;}
+.member{background#16162b;border1px solid #2f2f55;padding40px 30px;border-radius14px;transition.35s;box-shadow0 4px 15px rgba(0,0,0,0.4);}
+.memberhover{transformtranslateY(-6px);border-color#9333ea;}
+.tg-btn{displayinline-block;margin-top20px;background#9333ea;padding12px 25px;border-radius8px;colorwhite;text-decorationnone;transition.25s;cursorpointer;}
+.tg-btnhover{background#a855f7;transformtranslateY(-2px);}
+
+.member-header{displayflex;align-itemscenter;gap15px;margin-bottom12px;}
+.member img{width60px;height60px;border-radius12px;object-fit cover;background #1c1c3a;}
+.role{font-size12px;color#c4b5fd; text-transform uppercase; letter-spacing 0.5px;}
+.member p{margin-top10px;color#ccc;font-size14px;}
+
+ THANKS PANEL 
+.thanks-grid {
+    display grid;
+    grid-template-columns repeat(auto-fit, minmax(200px, 1fr));
+    gap 15px;
+}
+.credit-card {
+    padding 20px;
+    background rgba(22, 22, 43, 0.4);
+    border 1px dashed rgba(168, 85, 247, 0.3);
+    border-radius 12px;
+}
+.credit-card h3 { font-size 15px; color #f0c4ff; }
+.credit-card p { font-size 12px; color #888; margin-top 5px; line-height 1.4; }
+.emoji { font-size 20px; }
+
+ POPUPS 
+.popup{positionfixed;top0;left0;width100%;height100%;backgroundrgba(0,0,0,0.95);displayflex;align-itemscenter;justify-contentcenter;opacity0;visibilityhidden;transitionall .5s ease;z-index100;}
+.popup.active{opacity1;visibilityvisible;}
+.popup-content{background#15152a;padding40px;border-radius16px;width90%;max-width500px;border1px solid #9333ea;text-align center;}
+.close{margin-top25px;displayinline-block;background#1c1c3a;padding10px 20px;border-radius8px;cursorpointer;transition.25s;color #a855f7;}
+.closehover{background#2a2a4a;color white;}
+
+ DOWNLOAD BUTTONS SPECIFIC 
+.dl-options{display flex; flex-direction column; gap 12px; margin-top 20px;}
+.dl-link{text-decoration none; display flex; align-items center; justify-content center; gap 10px; padding 15px; border-radius 10px; font-weight 600; transition 0.3s; color white;}
+.dl-link.google{background #4285F4;}
+.dl-link.yandex{background #ffcc00; color #000;}
+.dl-linkhover{transform scale(1.02); filter brightness(1.1);}
+
+ RULES 
+.rule{background#16162b;border1px solid #2f2f55;padding15px;border-radius10px;margin-bottom10px;text-align left;}
+
+footer{text-aligncenter;padding40px;background#090912;color#555;border-top 1px solid #1c1c3a;}
+style
+head
+body
+
+canvas id=bgcanvas
+
+div class=sidebar
+a onclick=closePopups()span class=iconsvg viewBox=0 0 24 24path d=M3 12L12 4L21 12V20A2 2 0 0 1 19 22H5A2 2 0 0 1 3 20Zsvgspanspan class=textГлавнаяspana
+a onclick=openRules()span class=iconsvg viewBox=0 0 24 24path d=M4 3H20V17H4Zsvgspanspan class=textПравилаspana
+div
+
+navMOONAWAK3nav
+
+section class=hero
+h1MOONAWAK3h1
+pМагическое ванильное выживаниеp
+div class=ip-boxspanplay.moonawak3.ruspanbutton class=copy onclick=copyIP()Копироватьbuttondiv
+div class=online0  300 игроков онлайнdiv
+section
+
+section class=section
+    h2Начать игруh2
+    div class=grid
+        div class=card
+            div
+                h3Скачать сборкуh3
+                p style=color#888; font-size14px; margin-top10px;Все необходимые моды в одном архиве.p
+            div
+            button onclick=openDownload() class=btnЗагрузитьbutton
+        div
+        div class=card
+            div
+                h3Инструкцияh3
+                p style=color#888; font-size14px; margin-top10px;Как зайти и начать играть за 5 минут.p
+            div
+            a href=# target=_blank class=btnЧитатьa
+        div
+        div class=card
+            div
+                h3Discordh3
+                p style=color#888; font-size14px; margin-top10px;Общение, новости и техподдержка.p
+            div
+            a href=httpsdiscord.ggJjfRSYht target=_blank class=btnПрисоединитьсяa
+        div
+    div
+section
+
+section class=section
+h2Команда проектаh2
+div class=team-grid
+
+div class=member
+div class=member-header
+    img src=httpsimage2url.comr2defaultimages1775409477070-c6670add-1f0d-4dab-8748-4fe2020bc475.png alt=Deathawak3
+    divh3Deathawak3h3div class=roleВладелец проектаdivdiv
+div
+pОснователь сервера MoonAwak3.p
+a class=tg-btn href=httpst.medeathawak3 target=_blankTelegrama
+div
+
+div class=member
+div class=member-header
+    img src=httpsvia.placeholder.com60 alt=Bibizyaka
+    divh3Bibizyakah3div class=roleТехнический администраторdivdiv
+div
+pОтвечает за моды и стабильность.p
+a class=tg-btn href=httpst.medeathZyaka3s target=_blankTelegrama
+div
+
+div class=member
+div class=member-header
+    img src=httpsimage2url.comr2defaultimages1775400084182-fce43204-edf9-4f23-b520-a9549bcee190.png alt=Keshushh
+    divh3Keshushhh3div class=roleИгровой администраторdivdiv
+div
+pСледит за порядком.p
+a class=tg-btn href=httpst.mekeshuh target=_blankTelegrama
+div
+
+div
+section
+
+section class=section
+    h2 style=font-size 22px;Особая благодарностьh2
+    p style=text-align center; color #666; margin-top -30px; margin-bottom 30px; font-size 14px;Помогали в создании этого мираp
+    
+    div class=thanks-grid
+        div class=credit-card
+            div class=member-header
+                span class=emoji🔨span
+                h3Ник_1h3
+            div
+            pСтроительство спавна и арен.p
+        div
+
+        div class=credit-card
+            div class=member-header
+                span class=emoji🧱span
+                h3Ник_2h3
+            div
+            pПомощь с ландшафтом.p
+        div
+
+        div class=credit-card
+            div class=member-header
+                span class=emoji✨span
+                h3Ник_3h3
+            div
+            pДекорирование локаций.p
+        div
+
+        div class=credit-card
+            div class=member-header
+                span class=emoji🛡️span
+                h3Ник_4h3
+            div
+            pТестирование механик.p
+        div
+
+        div class=credit-card
+            div class=member-header
+                span class=emoji💜span
+                h3Ник_5h3
+            div
+            pПоддержка и идеи.p
+        div
+    div
+section
+
+div id=rulesPopup class=popup
+div class=popup-content
+h2 style=margin-bottom 20px; font-family 'Press Start 2P'; font-size 18px; color #a855f7;Правила сервераh2
+div class=rule1. Уважайте игроков и администрациюdiv
+div class=rule2. Запрещено использование читов и баговdiv
+div class=rule3. Не спамить и не рекламировать сторонние ресурсыdiv
+div class=close onclick=closePopups()Закрытьdiv
+div
+div
+
+div id=downloadPopup class=popup
+    div class=popup-content
+        h2 style=margin-bottom 20px; font-family 'Press Start 2P'; font-size 18px; color #a855f7;Выбор дискаh2
+        p style=color #ccc; margin-bottom 10px;Выберите удобный способ загрузкиp
+        div class=dl-options
+            a href=# target=_blank class=dl-link googleGoogle Дискa
+            a href=# target=_blank class=dl-link yandexЯндекс Дискa
+        div
+        div class=close onclick=closePopups()Отменаdiv
+    div
+div
+
+footer© 2026 MoonAwak3  Магическое выживаниеfooter
+
+script
+function copyIP(){
+    navigator.clipboard.writeText(play.moonawak3.ru);
+    const btn = document.querySelector('.copy');
+    btn.innerText = Скопировано!;
+    setTimeout(() = { btn.innerText = Копировать; }, 2000);
+}
+
+function openRules(){
+    closePopups();
+    document.getElementById(rulesPopup).classList.add(active);
+}
+
+function openDownload(){
+    closePopups();
+    document.getElementById(downloadPopup).classList.add(active);
+}
+
+function closePopups(){
+    document.getElementById(rulesPopup).classList.remove(active);
+    document.getElementById(downloadPopup).classList.remove(active);
+}
+
+const sections = document.querySelectorAll(.section);
+const reveal = () = {
+    sections.forEach(sec={
+        if(sec.getBoundingClientRect().top  window.innerHeight-100){sec.classList.add(show);}
+    })
+}
+window.addEventListener(scroll, reveal);
+window.addEventListener(load, reveal);
+
+const canvas=document.getElementById(bg); const ctx=canvas.getContext(2d);
+function resize(){canvas.width=window.innerWidth;canvas.height=window.innerHeight;}
+resize(); window.addEventListener(resize,resize);
+
+let stars=[]; 
+for(let i=0;i150;i++){
+    stars.push({
+        xMath.random()canvas.width,
+        yMath.random()canvas.height,
+        sizeMath.random()2,
+        speedMath.random()0.4 + 0.1
+    });
+}
+
+function animate(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    ctx.fillStyle=#a855f7;
+    stars.forEach(s={
+        ctx.beginPath();
+        ctx.arc(s.x,s.y,s.size,0,Math.PI2);
+        ctx.fill();
+        s.y+=s.speed;
+        if(s.ycanvas.height){s.y=0; s.x=Math.random()canvas.width;}
+    });
+    requestAnimationFrame(animate);
+}
+animate();
+script
+
+body
+html
