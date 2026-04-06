@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MoonAwak3</title>
 
+<link rel="icon" type="image/png" href="favicon.png">
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 
 <style>
@@ -60,7 +61,7 @@ nav{display:flex;justify-content:center;align-items:center;padding:25px;backgrou
 .role{font-size:12px;color:#c4b5fd; text-transform: uppercase; letter-spacing: 0.5px;}
 .member p{margin-top:10px;color:#ccc;font-size:14px;}
 
-/* THANKS PANEL (Ники ровные) */
+/* THANKS PANEL */
 .thanks-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -100,9 +101,22 @@ nav{display:flex;justify-content:center;align-items:center;padding:25px;backgrou
 /* POPUPS */
 .popup{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.95);display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transition:all .5s ease;z-index:100;}
 .popup.active{opacity:1;visibility:visible;}
-.popup-content{background:#15152a;padding:40px;border-radius:16px;width:90%;max-width:500px;border:1px solid #9333ea;text-align: center;}
+.popup-content{background:#15152a;padding:40px;border-radius:16px;width:95%;max-width:500px;border:1px solid #9333ea;text-align: center;}
 .close{margin-top:25px;display:inline-block;background:#1c1c3a;padding:10px 20px;border-radius:8px;cursor:pointer;transition:.25s;color: #a855f7;}
 .close:hover{background:#2a2a4a;color: white;}
+
+/* ПРАВИЛА СО СКРОЛЛОМ */
+.rules-container {
+    max-height: 280px; 
+    overflow-y: auto;  
+    padding-right: 10px;
+    margin-top: 20px;
+}
+.rules-container::-webkit-scrollbar { width: 6px; }
+.rules-container::-webkit-scrollbar-track { background: #111122; border-radius: 10px; }
+.rules-container::-webkit-scrollbar-thumb { background: #9333ea; border-radius: 10px; }
+
+.rule{background:#16162b;border:1px solid #2f2f55;padding:15px;border-radius:10px;margin-bottom:10px;text-align: left; font-size: 14px; line-height: 1.5;}
 
 /* DOWNLOAD BUTTONS SPECIFIC */
 .dl-options{display: flex; flex-direction: column; gap: 12px; margin-top: 20px;}
@@ -110,9 +124,6 @@ nav{display:flex;justify-content:center;align-items:center;padding:25px;backgrou
 .dl-link.google{background: #4285F4;}
 .dl-link.yandex{background: #ffcc00; color: #000;}
 .dl-link:hover{transform: scale(1.02); filter: brightness(1.1);}
-
-/* RULES */
-.rule{background:#16162b;border:1px solid #2f2f55;padding:15px;border-radius:10px;margin-bottom:10px;text-align: left;}
 
 footer{text-align:center;padding:40px;background:#090912;color:#555;border-top: 1px solid #1c1c3a;}
 </style>
@@ -201,40 +212,28 @@ footer{text-align:center;padding:40px;background:#090912;color:#555;border-top: 
     <p style="text-align: center; color: #666; margin-top: -30px; margin-bottom: 30px; font-size: 14px;">Помогали в создании этого мира</p>
     
     <div class="thanks-grid">
-        <div class="credit-card">
-            <h3>Whykerosene3</h3>
-            <p>Спонсор месяца</p>
-        </div>
-
-        <div class="credit-card">
-            <h3>Bibizyaka3_</h3>
-            <p>Технический застройщик проекта</p>
-        </div>
-
-        <div class="credit-card">
-            <h3>Mat1uda</h3>
-            <p>Первостроитель MoonAwak3</p>
-        </div>
-
-        <div class="credit-card">
-            <h3>Anx1eetyy</h3>
-            <p>Строитель города</p>
-        </div>
-
-        <div class="credit-card">
-            <h3>Gekkushaaa</h3>
-            <p>Участвовала в застройке</p>
-        </div>
+        <div class="credit-card"><h3>Whykerosene3</h3><p>Спонсор месяца</p></div>
+        <div class="credit-card"><h3>Bibizyaka3_</h3><p>Технический застройщик</p></div>
+        <div class="credit-card"><h3>Mat1uda</h3><p>Первостроитель MoonAwak3</p></div>
+        <div class="credit-card"><h3>Anx1eetyy</h3><p>Строитель города</p></div>
+        <div class="credit-card"><h3>Gekkushaaa</h3><p>Участвовала в застройке</p></div>
     </div>
 </section>
 
 <div id="rulesPopup" class="popup">
 <div class="popup-content">
-<h2 style="margin-bottom: 20px; font-family: 'Press Start 2P'; font-size: 18px; color: #a855f7;">Правила сервера</h2>
-<div class="rule">1. Уважайте игроков и администрацию</div>
-<div class="rule">2. Запрещено использование читов и багов</div>
-<div class="rule">3. Не спамить и не рекламировать сторонние ресурсы</div>
-<div class="close" onclick="closePopups()">Закрыть</div>
+    <h2 style="font-family: 'Press Start 2P'; font-size: 14px; color: #a855f7;">Правила сервера</h2>
+    <div class="rules-container">
+        <div class="rule"><b>1.</b> Уважайте игроков и администрацию. Основатель — Deathawak3.</div>
+        <div class="rule"><b>2.</b> Запрещено использование читов и стороннего ПО.</div>
+        <div class="rule"><b>3.</b> Не спамить и не рекламировать другие проекты.</div>
+        <div class="rule"><b>4.</b> Гриферство и воровство строго запрещены.</div>
+        <div class="rule"><b>5.</b> Запрещено создание лаг-машин.</div>
+        <div class="rule"><b>6.</b> О всех багах сообщайте администрации.</div>
+        <div class="rule"><b>7.</b> Запрещено мешать игровому процессу других.</div>
+        <div class="rule"><b>8.</b> Итоговое решение всегда за администрацией.</div>
+    </div>
+    <div class="close" onclick="closePopups()">Закрыть</div>
 </div>
 </div>
 
@@ -260,20 +259,9 @@ function copyIP(){
     setTimeout(() => { btn.innerText = "Копировать"; }, 2000);
 }
 
-function openRules(){
-    closePopups();
-    document.getElementById("rulesPopup").classList.add("active");
-}
-
-function openDownload(){
-    closePopups();
-    document.getElementById("downloadPopup").classList.add("active");
-}
-
-function closePopups(){
-    document.getElementById("rulesPopup").classList.remove("active");
-    document.getElementById("downloadPopup").classList.remove("active");
-}
+function openRules(){ closePopups(); document.getElementById("rulesPopup").classList.add("active"); }
+function openDownload(){ closePopups(); document.getElementById("downloadPopup").classList.add("active"); }
+function closePopups(){ document.querySelectorAll('.popup').forEach(p => p.classList.remove('active')); }
 
 const sections = document.querySelectorAll(".section");
 const reveal = () => {
