@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MoonAwak3</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:Inter;background:#0b0b14;color:white;overflow-x:hidden;}
+canvas{position:fixed;top:0;left:0;z-index:0;pointer-events:none;}
+
+/* SIDEBAR */
+.sidebar{position:fixed;left:0;top:0;height:100%;width:70px;background:#111122;padding-top:120px;display:flex;flex-direction:column;transition:width .3s;z-index:10;border-right: 1px solid rgba(168, 85, 247, 0.2);}
+.sidebar:hover{width:210px;}
+.sidebar a{display:flex;align-items:center;gap:12px;padding:16px 20px;color:#a855f7;text-decoration:none;transition:.25s;cursor:pointer;}
+.sidebar a:hover{background:#1c1c3a;color:#f0c4ff;}
+.icon{width:22px;height:22px;display:flex;align-items:center;justify-content:center;}
+.icon svg{width:20px;height:20px;stroke:#a855f7;stroke-width:2;fill:none;opacity:.6;transition:.25s;}
+.sidebar a:hover svg{opacity:1;stroke:#f0c4ff;transform:scale(1.1);}
+.text{opacity:0;transition:.3s;white-space:nowrap;}
+.sidebar:hover .text{opacity:1;}
+
+/* NAVBAR */
+nav{display:flex;justify-content:center;align-items:center;padding:25px;background:rgba(17, 17, 34, 0.8);backdrop-filter: blur(10px);border-bottom:1px solid #2a2a4a;font-family:'Press Start 2P';font-size:14px;color:#a855f7;position:sticky;top:0;z-index:15;}
+
+/* HERO */
+.hero{text-align:center;padding:160px 20px;position:relative;z-index:5;}
+.hero h1{font-size:60px;margin-bottom:20px;color:#a855f7;font-family:'Press Start 2P';text-shadow: 0 0 15px rgba(168, 85, 247, 0.4);}
+.hero p{font-size:20px;color:#ddd;}
+.ip-box{margin-top:40px;display:inline-flex;align-items:center;gap:15px;background:#191933;padding:18px 30px;border-radius:12px;border:1px solid #3a3a66;transition: 0.3s;}
+.ip-box:hover{border-color: #a855f7;}
+.copy{background:#9333ea;border:none;padding:10px 20px;border-radius:8px;color:white;cursor:pointer;transition:.25s;}
+.copy:hover{background:#a855f7;transform:translateY(-2px);}
+.online{margin-top:15px;color:#c4b5fd;font-family: 'Press Start 2P'; font-size: 10px;}
+
+/* SECTIONS */
+.section{padding:100px 10%;position:relative;z-index:5;opacity:0;transform:translateY(40px);transition:all 1s ease;}
+.section.show{opacity:1;transform:translateY(0);}
+.section h2{font-size:32px;margin-bottom:40px;font-family:'Press Start 2P';color:#a855f7;text-align:center;}
+
+/* GRIDS */
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px;}
+.card{background:#16162b;border:1px solid #2f2f55;padding:30px;border-radius:16px;transition:.3s;height:100%;display:flex;flex-direction:column;justify-content:space-between;}
+.card:hover{transform:translateY(-5px);border-color:#9333ea;box-shadow:0 10px 30px rgba(0,0,0,0.3);}
+.btn{display:block;margin-top:20px;background:#9333ea;padding:12px;border-radius:8px;color:white;text-decoration:none;text-align:center;font-weight:600;transition:.25s;border:none;cursor:pointer;width:100%;}
+.btn:hover{background:#a855f7;}
+
+/* TEAM GRID */
+.team-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:30px;margin-top:50px;}
+.member{background:#16162b;border:1px solid #2f2f55;padding:40px 30px;border-radius:14px;transition:.35s;box-shadow:0 4px 15px rgba(0,0,0,0.4);}
+.member:hover{transform:translateY(-6px);border-color:#9333ea;}
+.tg-btn{display:inline-block;margin-top:20px;background:#9333ea;padding:12px 25px;border-radius:8px;color:white;text-decoration:none;transition:.25s;cursor:pointer;}
+.tg-btn:hover{background:#a855f7;transform:translateY(-2px);}
+
+.member-header{display:flex;align-items:center;gap:15px;margin-bottom:12px;}
+.member img{width:60px;height:60px;border-radius:12px;object-fit: cover;background: #1c1c3a;}
+.role{font-size:12px;color:#c4b5fd; text-transform: uppercase; letter-spacing: 0.5px;}
+.member p{margin-top:10px;color:#ccc;font-size:14px;}
+
+/* THANKS PANEL */
+.thanks-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+}
+.credit-card {
+    padding: 20px;
+    background: rgba(22, 22, 43, 0.4);
+    border: 1px dashed rgba(168, 85, 247, 0.3);
+    border-radius: 12px;
+}
+.credit-card h3 { font-size: 15px; color: #f0c4ff; }
+.credit-card p { font-size: 12px; color: #888; margin-top: 5px; line-height: 1.4; }
+.emoji { font-size: 20px; }
+
+/* POPUPS */
+.popup{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.95);display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transition:all .5s ease;z-index:100;}
+.popup.active{opacity:1;visibility:visible;}
+.popup-content{background:#15152a;padding:40px;border-radius:16px;width:90%;max-width:500px;border:1px solid #9333ea;text-align: center;}
+.close{margin-top:25px;display:inline-block;background:#1c1c3a;padding:10px 20px;border-radius:8px;cursor:pointer;transition:.25s;color: #a855f7;}
+.close:hover{background:#2a2a4a;color: white;}
+
+/* DOWNLOAD BUTTONS SPECIFIC */
+.dl-options{display: flex; flex-direction: column; gap: 12px; margin-top: 20px;}
+.dl-link{text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 10px; padding: 15px; border-radius: 10px; font-weight: 600; transition: 0.3s; color: white;}
+.dl-link.google{background: #4285F4;}
+.dl-link.yandex{background: #ffcc00; color: #000;}
+.dl-link:hover{transform: scale(1.02); filter: brightness(1.1);}
+
+/* RULES */
+.rule{background:#16162b;border:1px solid #2f2f55;padding:15px;border-radius:10px;margin-bottom:10px;text-align: left;}
+
+footer{text-align:center;padding:40px;background:#090912;color:#555;border-top: 1px solid #1c1c3a;}
+</style>
+</head>
+<body>
+
+<canvas id="bg"></canvas>
+
+<div class="sidebar">
+<a onclick="closePopups()"><span class="icon"><svg viewBox="0 0 24 24"><path d="M3 12L12 4L21 12V20A2 2 0 0 1 19 22H5A2 2 0 0 1 3 20Z"/></svg></span><span class="text">Главная</span></a>
+<a onclick="openRules()"><span class="icon"><svg viewBox="0 0 24 24"><path d="M4 3H20V17H4Z"/></svg></span><span class="text">Правила</span></a>
+</div>
+
+<nav>MOONAWAK3</nav>
+
+<section class="hero">
+<h1>MOONAWAK3</h1>
+<p>Магическое ванильное выживание</p>
+<div class="ip-box"><span>play.moonawak3.ru</span><button class="copy" onclick="copyIP()">Копировать</button></div>
+<div class="online">0 / 300 игроков онлайн</div>
+</section>
+
+<section class="section">
+    <h2>Начать игру</h2>
+    <div class="grid">
+        <div class="card">
+            <div>
+                <h3>Скачать сборку</h3>
+                <p style="color:#888; font-size:14px; margin-top:10px;">Все необходимые моды в одном архиве.</p>
+            </div>
+            <button onclick="openDownload()" class="btn">Загрузить</button>
+        </div>
+        <div class="card">
+            <div>
+                <h3>Инструкция</h3>
+                <p style="color:#888; font-size:14px; margin-top:10px;">Как зайти и начать играть за 5 минут.</p>
+            </div>
+            <a href="#" target="_blank" class="btn">Читать</a>
+        </div>
+        <div class="card">
+            <div>
+                <h3>Discord</h3>
+                <p style="color:#888; font-size:14px; margin-top:10px;">Общение, новости и техподдержка.</p>
+            </div>
+            <a href="https://discord.gg/JjfRSYht" target="_blank" class="btn">Присоединиться</a>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+<h2>Команда проекта</h2>
+<div class="team-grid">
+
+<div class="member">
+<div class="member-header">
+    <img src="https://image2url.com/r2/default/images/1775409477070-c6670add-1f0d-4dab-8748-4fe2020bc475.png" alt="Deathawak3">
+    <div><h3>Deathawak3</h3><div class="role">Владелец проекта</div></div>
+</div>
+<p>Основатель сервера MoonAwak3.</p>
+<a class="tg-btn" href="https://t.me/deathawak3" target="_blank">Telegram</a>
+</div>
+
+<div class="member">
+<div class="member-header">
+    <img src="https://via.placeholder.com/60" alt="Bibizyaka">
+    <div><h3>Bibizyaka</h3><div class="role">Технический администратор</div></div>
+</div>
+<p>Отвечает за моды и стабильность.</p>
+<a class="tg-btn" href="https://t.me/deathZyaka3s" target="_blank">Telegram</a>
+</div>
+
+<div class="member">
+<div class="member-header">
+    <img src="https://image2url.com/r2/default/images/1775400084182-fce43204-edf9-4f23-b520-a9549bcee190.png" alt="Keshushh">
+    <div><h3>Keshushh</h3><div class="role">Игровой администратор</div></div>
+</div>
+<p>Следит за порядком.</p>
+<a class="tg-btn" href="https://t.me/keshuh" target="_blank">Telegram</a>
+</div>
+
+</div>
+</section>
+
+<section class="section">
+    <h2 style="font-size: 22px;">Особая благодарность</h2>
+    <p style="text-align: center; color: #666; margin-top: -30px; margin-bottom: 30px; font-size: 14px;">Помогали в создании этого мира</p>
+    
+    <div class="thanks-grid">
+        <div class="credit-card">
+            <div class="member-header">
+                <span class="emoji">🔨</span>
+                <h3>Ник_1</h3>
+            </div>
+            <p>Строительство спавна и арен.</p>
+        </div>
+
+        <div class="credit-card">
+            <div class="member-header">
+                <span class="emoji">🧱</span>
+                <h3>Ник_2</h3>
+            </div>
+            <p>Помощь с ландшафтом.</p>
+        </div>
+
+        <div class="credit-card">
+            <div class="member-header">
+                <span class="emoji">✨</span>
+                <h3>Ник_3</h3>
+            </div>
+            <p>Декорирование локаций.</p>
+        </div>
+
+        <div class="credit-card">
+            <div class="member-header">
+                <span class="emoji">🛡️</span>
+                <h3>Ник_4</h3>
+            </div>
+            <p>Тестирование механик.</p>
+        </div>
+
+        <div class="credit-card">
+            <div class="member-header">
+                <span class="emoji">💜</span>
+                <h3>Ник_5</h3>
+            </div>
+            <p>Поддержка и идеи.</p>
+        </div>
+    </div>
+</section>
+
+<div id="rulesPopup" class="popup">
+<div class="popup-content">
+<h2 style="margin-bottom: 20px; font-family: 'Press Start 2P'; font-size: 18px; color: #a855f7;">Правила сервера</h2>
+<div class="rule">1. Уважайте игроков и администрацию</div>
+<div class="rule">2. Запрещено использование читов и багов</div>
+<div class="rule">3. Не спамить и не рекламировать сторонние ресурсы</div>
+<div class="close" onclick="closePopups()">Закрыть</div>
+</div>
+</div>
+
+<div id="downloadPopup" class="popup">
+    <div class="popup-content">
+        <h2 style="margin-bottom: 20px; font-family: 'Press Start 2P'; font-size: 18px; color: #a855f7;">Выбор диска</h2>
+        <p style="color: #ccc; margin-bottom: 10px;">Выберите удобный способ загрузки:</p>
+        <div class="dl-options">
+            <a href="#" target="_blank" class="dl-link google">Google Диск</a>
+            <a href="#" target="_blank" class="dl-link yandex">Яндекс Диск</a>
+        </div>
+        <div class="close" onclick="closePopups()">Отмена</div>
+    </div>
+</div>
+
+<footer>© 2026 MoonAwak3 | Магическое выживание</footer>
+
+<script>
+function copyIP(){
+    navigator.clipboard.writeText("play.moonawak3.ru");
+    const btn = document.querySelector('.copy');
+    btn.innerText = "Скопировано!";
+    setTimeout(() => { btn.innerText = "Копировать"; }, 2000);
+}
+
+function openRules(){
+    closePopups();
+    document.getElementById("rulesPopup").classList.add("active");
+}
+
+function openDownload(){
+    closePopups();
+    document.getElementById("downloadPopup").classList.add("active");
+}
+
+function closePopups(){
+    document.getElementById("rulesPopup").classList.remove("active");
+    document.getElementById("downloadPopup").classList.remove("active");
+}
+
+const sections = document.querySelectorAll(".section");
+const reveal = () => {
+    sections.forEach(sec=>{
+        if(sec.getBoundingClientRect().top < window.innerHeight-100){sec.classList.add("show");}
+    })
+}
+window.addEventListener("scroll", reveal);
+window.addEventListener("load", reveal);
+
+const canvas=document.getElementById("bg"); const ctx=canvas.getContext("2d");
+function resize(){canvas.width=window.innerWidth;canvas.height=window.innerHeight;}
+resize(); window.addEventListener("resize",resize);
+
+let stars=[]; 
+for(let i=0;i<150;i++){
+    stars.push({
+        x:Math.random()*canvas.width,
+        y:Math.random()*canvas.height,
+        size:Math.random()*2,
+        speed:Math.random()*0.4 + 0.1
+    });
+}
+
+function animate(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    ctx.fillStyle="#a855f7";
+    stars.forEach(s=>{
+        ctx.beginPath();
+        ctx.arc(s.x,s.y,s.size,0,Math.PI*2);
+        ctx.fill();
+        s.y+=s.speed;
+        if(s.y>canvas.height){s.y=0; s.x=Math.random()*canvas.width;}
+    });
+    requestAnimationFrame(animate);
+}
+animate();
+</script>
+
+</body>
+</html>
