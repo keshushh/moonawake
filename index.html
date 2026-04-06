@@ -106,7 +106,7 @@ nav{display:flex;justify-content:center;align-items:center;padding:25px;backgrou
 .close{margin-top:25px;display:inline-block;background:#1c1c3a;padding:10px 20px;border-radius:8px;cursor:pointer;transition:.25s;color: #a855f7;}
 .close:hover{background:#2a2a4a;color: white;}
 
-/* ПРАВИЛА СО СКРОЛЛОМ */
+/* ПРАВИЛА И ИНСТРУКЦИЯ СО СКРОЛЛОМ */
 .rules-container {
     max-height: 280px; 
     overflow-y: auto;  
@@ -162,7 +162,7 @@ footer{text-align:center;padding:40px;background:#090912;color:#555;border-top: 
                 <h3>Инструкция</h3>
                 <p style="color:#888; font-size:14px; margin-top:10px;">Как зайти и начать играть за 5 минут.</p>
             </div>
-            <a href="#" target="_blank" class="btn">Читать</a>
+            <button onclick="openGuide()" class="btn">Читать</button>
         </div>
         <div class="card">
             <div>
@@ -238,6 +238,34 @@ footer{text-align:center;padding:40px;background:#090912;color:#555;border-top: 
 </div>
 </div>
 
+<div id="guidePopup" class="popup">
+<div class="popup-content">
+    <h2 style="font-family: 'Press Start 2P'; font-size: 14px; color: #a855f7;">Инструкция по установке</h2>
+    <div class="rules-container">
+        <div class="rule">
+            <b>Шаг 1: Подготовка версии</b><br>
+            Открой TLauncher. В списке версий выбери нужную: <b>Forge 1.20.1</b>.<br>
+            <i style="font-size: 12px; color: #aaa;">Важно: если выбрать версию без пометки Forge или Fabric, моды работать не будут.</i>
+        </div>
+        <div class="rule">
+            <b>Шаг 2: Переход в папку модов</b><br>
+            Нажми на иконку <b>желтой папки</b> в правом нижнем углу лаунчера.<br>
+            В открывшемся окне найди и открой папку <b>mods</b>.<br>
+            <i style="font-size: 12px; color: #aaa;">Если внутри есть старые моды, удали их, чтобы не было конфликтов.</i>
+        </div>
+        <div class="rule">
+            <b>Шаг 3: Установка</b><br>
+            Скачай наш архив/папку с модами. Скопируй папку <b>mods</b> из архива и вставь ее в основную папку <b>minecraft</b>, которую ты открыл через лаунчер.
+        </div>
+        <div class="rule">
+            <b>Шаг 4: Запуск</b><br>
+            Возвращайся в TLauncher и жми <b>«Войти в игру»</b>.
+        </div>
+    </div>
+    <div class="close" onclick="closePopups()">Закрыть</div>
+</div>
+</div>
+
 <div id="downloadPopup" class="popup">
     <div class="popup-content">
         <h2 style="margin-bottom: 20px; font-family: 'Press Start 2P'; font-size: 18px; color: #a855f7;">Выбор диска</h2>
@@ -254,15 +282,16 @@ footer{text-align:center;padding:40px;background:#090912;color:#555;border-top: 
 
 <script>
 function copyIP(){
-    // Обновленный IP сервера
     navigator.clipboard.writeText("moonawak3.minecraft-host.ru");
     const btn = document.querySelector('.copy');
     btn.innerText = "Скопировано!";
     setTimeout(() => { btn.innerText = "Копировать"; }, 2000);
 }
 
+// Функции управления попапами
 function openRules(){ closePopups(); document.getElementById("rulesPopup").classList.add("active"); }
 function openDownload(){ closePopups(); document.getElementById("downloadPopup").classList.add("active"); }
+function openGuide(){ closePopups(); document.getElementById("guidePopup").classList.add("active"); }
 function closePopups(){ document.querySelectorAll('.popup').forEach(p => p.classList.remove('active')); }
 
 const sections = document.querySelectorAll(".section");
