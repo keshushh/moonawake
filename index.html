@@ -419,7 +419,7 @@ footer{text-align:center;padding:40px;background:#090912;color:#555;border-top: 
   window.renderNews = function() {
     const list = document.getElementById('newsList'); list.innerHTML = '';
     if (window.newsData.length === 0) {
-        list.innerHTML = '<div class="no-news">НОВЫХ НОВОСТЕЙ ПОКА НЕТ!</div>';
+        list.innerHTML = '<div class="no-news">НОВОСТЕЙ ПОКА НЕТ!</div>';
         return;
     }
     window.newsData.forEach((item) => {
