@@ -211,6 +211,7 @@ footer{text-align:center;padding:40px;background:#090912;color:#555;border-top: 
                 <option value="Вопрос">Вопрос по игре</option>
                 <option value="Жалоба">Жалоба (гриферство/читы)</option>
                 <option value="Заявка">Присоединиться к серверу (Анкета)</option>
+                <option value="Идея">Идея для сервера</option>
                 <option value="Тех. проблема">Техническая проблема</option>
                 <option value="Другое">Другое</option>
             </select>
@@ -486,11 +487,17 @@ footer{text-align:center;padding:40px;background:#090912;color:#555;border-top: 
     const msgArea = document.getElementById('ticketMsg');
     const contactField = document.getElementById('contactField');
     const mediaGroup = document.getElementById('mediaGroup');
+    
     if (type === "Заявка") {
         labelMsg.innerText = "Расскажите о себе (Анкета)";
         msgArea.placeholder = "Возраст, планы на сервер, опыт в RP...";
         mediaGroup.style.display = "none";
         contactField.style.display = "block";
+    } else if (type === "Идея") {
+        labelMsg.innerText = "Ваша идея для улучшения сервера";
+        msgArea.placeholder = "Опишите вашу задумку подробно...";
+        mediaGroup.style.display = "none";
+        contactField.style.display = "none";
     } else {
         labelMsg.innerText = "Сообщение";
         msgArea.placeholder = "Опишите ситуацию...";
