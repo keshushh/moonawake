@@ -25,7 +25,7 @@ canvas{position:fixed;top:0;left:0;z-index:0;pointer-events:none;}
 .sidebar.expanded .text, .sidebar:hover .text{opacity:1;}
 
 /* ИНДИКАТОР НОВОСТЕЙ */
-.badge { position: absolute; top: 0; right: 0; width: 8px; height: 8px; background: #ff4444; border-radius: 50%; display: none; box-shadow: 0 0 10px #ff4444; }
+.badge { position: absolute; top: -2px; right: -2px; width: 10px; height: 10px; background: #ff4444; border-radius: 50%; display: none; box-shadow: 0 0 10px #ff4444; border: 2px solid #111122; z-index: 11; }
 
 /* NAVBAR */
 nav{display:flex;justify-content:center;align-items:center;padding:25px;background:rgba(17, 17, 34, 0.8);backdrop-filter: blur(10px);border-bottom:1px solid #2a2a4a;font-family:'Press Start 2P';font-size:14px;color:#a855f7;position:sticky;top:0;z-index:15;}
@@ -336,7 +336,6 @@ footer{text-align:center;padding:40px;background:#090912;color:#555;border-top: 
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
   import { getDatabase, ref, push, onValue, remove } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
-  // Твой конфиг Firebase
   const firebaseConfig = {
     apiKey: "AIzaSyAHX0eM-m3JmBzHhw2iIk9cn9Fq27u3V2M",
     authDomain: "moonawake-dc392.firebaseapp.com",
@@ -348,7 +347,6 @@ footer{text-align:center;padding:40px;background:#090912;color:#555;border-top: 
     measurementId: "G-0HCLQXKKWC"
   };
 
-  // Инициализация
   const app = initializeApp(firebaseConfig);
   const db = getDatabase(app);
   const newsRef = ref(db, 'news');
@@ -360,6 +358,21 @@ footer{text-align:center;padding:40px;background:#090912;color:#555;border-top: 
   let isAdmin = false; 
   let adminClicks = 0;
 
+  // --- ЛОГИКА УВЕДОМЛЕНИЙ ---
+  function checkNewNews(newsArray) {
+    if (newsArray.length === 0) return;
+    
+    const lastId = newsArray[0].id; // Самая свежая новость
+    const viewedId = localStorage.getItem('lastViewedNews');
+    const badge = document.getElementById('updateBadge');
+
+    if (lastId !== viewedId) {
+        badge.style.display = 'block';
+    } else {
+        badge.style.display = 'none';
+    }
+  }
+
   // --- ПОЛУЧЕНИЕ НОВОСТЕЙ ИЗ ОБЛАКА ---
   onValue(newsRef, (snapshot) => {
     const data = snapshot.val();
@@ -368,9 +381,10 @@ footer{text-align:center;padding:40px;background:#090912;color:#555;border-top: 
       window.newsData = Object.keys(data).map(key => ({
         id: key,
         ...data[key]
-      })).reverse(); // Новые сверху
+      })).reverse();
     }
     renderNews();
+    checkNewNews(window.newsData); // Проверяем на наличие новых при каждом обновлении базы
   });
 
   // --- ФУНКЦИИ АДМИНКИ ---
@@ -447,7 +461,19 @@ footer{text-align:center;padding:40px;background:#090912;color:#555;border-top: 
   };
 
   window.copyIP = function(){ navigator.clipboard.writeText("moonawak3.minecraft-host.ru"); showToast("IP скопирован!"); };
-  window.openNews = function() { closePopups(); renderNews(); document.getElementById("newsPopup").classList.add("active"); };
+  
+  window.openNews = function() { 
+    closePopups(); 
+    renderNews(); 
+    document.getElementById("newsPopup").classList.add("active");
+    
+    // Скрываем кружок при открытии и сохраняем ID последней новости
+    if (window.newsData.length > 0) {
+        localStorage.setItem('lastViewedNews', window.newsData[0].id);
+        document.getElementById('updateBadge').style.display = 'none';
+    }
+  };
+
   window.openTickets = function(){ closePopups(); updateFormUI(); document.getElementById("ticketPopup").classList.add("active"); };
   window.openRules = function(){ closePopups(); document.getElementById("rulesPopup").classList.add("active"); };
   window.openDownload = function(){ closePopups(); document.getElementById("downloadPopup").classList.add("active"); };
