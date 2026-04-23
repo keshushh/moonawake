@@ -97,6 +97,7 @@ nav{display:flex;justify-content:center;align-items:center;padding:25px;backgrou
 .close{margin-top:25px;display:inline-block;background:#1c1c3a;padding:10px 20px;border-radius:8px;cursor:pointer;transition:.25s;color: #a855f7;}
 .rules-container { max-height: 450px; overflow-y: auto; padding-right: 15px; margin-top: 20px; text-align: left; }
 .rule { background:#16162b; border:1px solid #2f2f55; padding:15px; border-radius:10px; margin-bottom:10px; font-size: 14px; line-height: 1.5; }
+.rule-title { color: #a855f7; font-family: 'Press Start 2P'; font-size: 10px; margin-top: 20px; margin-bottom: 10px; border-left: 3px solid #a855f7; padding-left: 10px; }
 
 /* TABS FOR GUIDE */
 .guide-tabs { display: flex; gap: 10px; margin-bottom: 20px; }
@@ -210,7 +211,7 @@ footer{text-align:center;padding:40px;background:#090912;color:#555;border-top: 
             <select id="ticketType" onchange="updateFormUI()">
                 <option value="Вопрос">Вопрос по игре</option>
                 <option value="Жалоба">Жалоба (гриферство/читы)</option>
-                <option value="Заявка">Присоединиться к серверу (Анкета)</option>
+                <option value="Апелляция">Апелляция разбана</option>
                 <option value="Идея">Идея для сервера</option>
                 <option value="Тех. проблема">Техническая проблема</option>
                 <option value="Другое">Другое</option>
@@ -252,14 +253,24 @@ footer{text-align:center;padding:40px;background:#090912;color:#555;border-top: 
     <div class="popup-content">
         <h2 style="font-family: 'Press Start 2P'; font-size: 14px; color: #a855f7;">Правила сервера</h2>
         <div class="rules-container">
-            <div class="rule"><b>1.</b> Уважайте игроков и администрацию.</div>
-            <div class="rule"><b>2.</b> Запрещено использование читов и стороннего ПО.</div>
-            <div class="rule"><b>3.</b> Не спамить и не рекламировать другие проекты.</div>
-            <div class="rule"><b>4.</b> Гриферство и воровство строго запрещены.</div>
-            <div class="rule"><b>5.</b> Запрещено создание лаг-машин.</div>
-            <div class="rule"><b>6.</b> Никнейм пользователя должен быть корректным. Запрещены оскорбительные и нечитабельные ники.</div>
-            <div class="rule"><b>7.</b> Запрещено мешать игровому процессу других.</div>
-            <div class="rule"><b>8.</b> Запрещены скины и постройки 18+, с увечьями, оскорбительного, пропагандистского и политического характера.</div>
+            <div class="rule-title">Общие правила поведения</div>
+            <div class="rule"><b>1.</b> Уважайте игроков и администрацию. Запрещено токсичное поведение, оскорбления, дискриминация по любому признаку (раса, пол, ориентация и т.д.), угрозы или харассмент в чате, голосовом общении или действиями.</div>
+            <div class="rule"><b>2.</b> Не спамьте и не рекламируйте. Запрещен флуд сообщений, капс, повторяющиеся команды, реклама других серверов, сайтов или проектов без разрешения администрации.</div>
+            
+            <div class="rule-title">Технические нарушения</div>
+            <div class="rule"><b>3.</b> Запрещены читы и стороннее ПО. Использование модов, макросов, ботов или любого ПО, дающего преимущество (KillAura, X-Ray, Fly и т.п.), строго запрещено. Официальные модпаки сервера — исключение.</div>
+            <div class="rule"><b>4.</b> Гриферство, воровство и дюп запрещены. Не разрушаете, не крадете чужое имущество, не используете дюпы или эксплойты для получения ресурсов.</div>
+            <div class="rule"><b>5.</b> Не создавайте лаг-машины. Запрещены фермы, редстоун-устройства или конструкции, вызывающие лаги (низкий TPS), краши или перегрузку сервера.</div>
+            
+            <div class="rule-title">Внешний вид и контент</div>
+            <div class="rule"><b>6.</b> Корректные ники и скины. Никнейм должен быть читаемым, без оскорблений, символов, маскирующих текст или запрещенного контента. Скины без 18+ тематики, насилия, пропаганды, политики или оскорложений.</div>
+            <div class="rule"><b>7.</b> Постройки и контент без нарушений. Запрещены строения 18+, с изображением насилия, оскорблений, политики или пропаганды. Не засоряйте мир ненужным мусором.</div>
+            
+            <div class="rule-title">Игровой процесс</div>
+            <div class="rule"><b>8.</b> Не мешайте другим игрокам. Запрещено блокировать спавн, пути, фермы или ресурсы; притворяться администрацией; организовывать "рейды" без согласия владельца.</div>
+            
+            <div class="rule-title">Последствия нарушений</div>
+            <div class="rule"><b>9.</b> Наказания: варн → кик → бан (от 1 дня до перма). Администрация оставляет за собой право на мгновенный бан за грубые нарушения. Апелляции — через Discord/Ticket-систему.</div>
         </div>
         <div class="close" onclick="closePopups()">Закрыть</div>
     </div>
@@ -363,7 +374,7 @@ footer{text-align:center;padding:40px;background:#090912;color:#555;border-top: 
   function checkNewNews(newsArray) {
     if (newsArray.length === 0) return;
     
-    const lastId = newsArray[0].id; // Самая свежая новость
+    const lastId = newsArray[0].id; 
     const viewedId = localStorage.getItem('lastViewedNews');
     const badge = document.getElementById('updateBadge');
 
@@ -374,7 +385,6 @@ footer{text-align:center;padding:40px;background:#090912;color:#555;border-top: 
     }
   }
 
-  // --- ПОЛУЧЕНИЕ НОВОСТЕЙ ИЗ ОБЛАКА ---
   onValue(newsRef, (snapshot) => {
     const data = snapshot.val();
     window.newsData = [];
@@ -385,10 +395,9 @@ footer{text-align:center;padding:40px;background:#090912;color:#555;border-top: 
       })).reverse();
     }
     renderNews();
-    checkNewNews(window.newsData); // Проверяем на наличие новых при каждом обновлении базы
+    checkNewNews(window.newsData); 
   });
 
-  // --- ФУНКЦИИ АДМИНКИ ---
   window.secretAdminTrigger = function() {
     adminClicks++;
     if(adminClicks >= 3) {
@@ -430,7 +439,6 @@ footer{text-align:center;padding:40px;background:#090912;color:#555;border-top: 
     }
   };
 
-  // --- ОТРИСОВКА НОВОСТЕЙ ---
   window.renderNews = function() {
     const list = document.getElementById('newsList'); list.innerHTML = '';
     if (window.newsData.length === 0) {
@@ -454,7 +462,6 @@ footer{text-align:center;padding:40px;background:#090912;color:#555;border-top: 
     });
   };
 
-  // --- ОБЩАЯ ЛОГИКА ---
   window.showToast = function(m, isErr = false) {
     const t = document.getElementById('toast'); t.innerText = m;
     t.style.borderColor = isErr ? "#ff4444" : "#a855f7";
@@ -467,8 +474,6 @@ footer{text-align:center;padding:40px;background:#090912;color:#555;border-top: 
     closePopups(); 
     renderNews(); 
     document.getElementById("newsPopup").classList.add("active");
-    
-    // Скрываем кружок при открытии и сохраняем ID последней новости
     if (window.newsData.length > 0) {
         localStorage.setItem('lastViewedNews', window.newsData[0].id);
         document.getElementById('updateBadge').style.display = 'none';
@@ -488,10 +493,10 @@ footer{text-align:center;padding:40px;background:#090912;color:#555;border-top: 
     const contactField = document.getElementById('contactField');
     const mediaGroup = document.getElementById('mediaGroup');
     
-    if (type === "Заявка") {
-        labelMsg.innerText = "Расскажите о себе (Анкета)";
-        msgArea.placeholder = "Возраст, планы на сервер, опыт в RP...";
-        mediaGroup.style.display = "none";
+    if (type === "Апелляция") {
+        labelMsg.innerText = "Опишите ситуацию";
+        msgArea.placeholder = "Пример: Считаю, что бан выдан по ошибке, так как я не использовал стороннее ПО. Прошу пересмотреть доказательства...";
+        mediaGroup.style.display = "block";
         contactField.style.display = "block";
     } else if (type === "Идея") {
         labelMsg.innerText = "Ваша идея для улучшения сервера";
@@ -513,7 +518,6 @@ footer{text-align:center;padding:40px;background:#090912;color:#555;border-top: 
     event.currentTarget.classList.add('active');
   };
 
-  // Discord Form
   document.getElementById('discordForm').addEventListener('submit', function(e) {
     e.preventDefault();
     const btn = document.getElementById('sendBtn'); btn.innerText = "Отправка..."; btn.disabled = true;
@@ -529,7 +533,6 @@ footer{text-align:center;padding:40px;background:#090912;color:#555;border-top: 
     .finally(() => { btn.innerText = "Отправить"; btn.disabled = false; });
   });
 
-  // Sidebar effect
   window.addEventListener('DOMContentLoaded', () => {
     const sidebar = document.getElementById('mainSidebar');
     setTimeout(() => {
@@ -540,7 +543,6 @@ footer{text-align:center;padding:40px;background:#090912;color:#555;border-top: 
     }, 500);
   });
 
-  // Canvas Stars
   const canvas=document.getElementById("bg"); const ctx=canvas.getContext("2d");
   function resize(){canvas.width=window.innerWidth;canvas.height=window.innerHeight;}
   resize(); window.addEventListener("resize",resize);
