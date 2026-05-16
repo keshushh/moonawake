@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moonlight Build Battle | Конкурс</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&family=Unbounded:wght@400;700&family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg-dark: #0a0a0c;
+            --accent-main: #b659ff;
+            --accent-secondary: #ff59d7;
+            --cta-bg: #a877ed; 
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --text-main: #ffffff;
+            --text-dim: #a0a0a0;
+            --gold: #ffcf4b;
+            --twitch: #9146ff;
+            --telegram: #2AABEE;
+        }
+
+        /* Стиль для кнопки возврата */
+        .back-link {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            z-index: 100;
+            text-decoration: none;
+            color: var(--text-dim);
+            font-family: 'Unbounded', sans-serif;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 15px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+            transition: 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: #fff;
+            border-color: var(--accent-main);
+            transform: translateX(-5px);
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(182, 89, 255, 0.1) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(255, 89, 215, 0.1) 0%, transparent 40%);
+        }
+
+        #stars-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        header {
+            height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+        }
+
+        header h1 {
+            font-family: 'Press Start 2P', monospace;
+            font-size: clamp(1.8rem, 5.5vw, 3.5rem);
+            margin: 0;
+            background: linear-gradient(135deg, #fff 0%, var(--accent-main) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 30px rgba(182, 89, 255, 0.3));
+            line-height: 1.3;
+            image-rendering: pixelated;
+        }
+
+        .quick-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 40px;
+            justify-content: center;
+        }
+
+        .nav-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            padding: 15px 25px;
+            border-radius: 16px;
+            text-decoration: none;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-card i { color: var(--accent-main); font-size: 1.2rem; }
+        .nav-card.twitch-link i { color: var(--twitch); }
+
+        .nav-card span { font-weight: 600; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; }
+
+        .nav-card:hover {
+            border-color: var(--accent-main);
+            transform: translateY(-5px);
+            background: rgba(182, 89, 255, 0.05);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .section-title {
+            font-family: 'Press Start 2P', monospace;
+            text-align: center;
+            font-size: clamp(1.2rem, 3.5vw, 1.6rem);
+            margin: 60px 0 30px 0;
+            letter-spacing: 2px;
+            color: #fff;
+            text-transform: uppercase;
+            display: block;
+            width: 100%;
+            line-height: 1.5;
+        }
+
+        .prizes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .prize-card {
+            background: linear-gradient(145deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.01) 100%);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 40px 30px;
+            text-align: center;
+            position: relative;
+            transition: 0.3s;
+        }
+
+        .prize-card:hover {
+            background: rgba(255, 255, 255, 0.05);
+            transform: scale(1.02);
+        }
+
+        .prize-card i {
+            font-size: 3rem;
+            color: var(--gold);
+            margin-bottom: 20px;
+            filter: drop-shadow(0 0 15px rgba(255, 207, 75, 0.3));
+        }
+
+        .prize-card h3 { font-family: 'Unbounded', sans-serif; margin: 10px 0; font-size: 1rem; opacity: 0.8; }
+        .prize-card .amount { font-size: 2.5rem; font-weight: 800; color: #fff; }
+
+        .rules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+        }
+
+        .section-card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            padding: 35px;
+            border-radius: 24px;
+            backdrop-filter: blur(5px);
+            transition: 0.3s;
+        }
+
+        .section-card.full-width {
+            grid-column: 1 / -1;
+            text-align: center;
+        }
+
+        .section-card:hover {
+            border-color: rgba(182, 89, 255, 0.3);
+        }
+
+        h2.card-head {
+            font-family: 'Unbounded', sans-serif;
+            font-size: 1.1rem;
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            color: var(--accent-main);
+            margin-bottom: 25px;
+        }
+
+        .rule-item {
+            margin-bottom: 15px;
+            padding-left: 25px;
+            position: relative;
+            color: var(--text-dim);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            text-align: left;
+        }
+
+        .rule-item::before {
+            content: '✦';
+            position: absolute;
+            left: 0;
+            color: var(--accent-secondary);
+            font-size: 0.8rem;
+        }
+
+        .cta-section {
+            text-align: center;
+            margin: 80px 0;
+            background: var(--cta-bg); 
+            padding: 60px 30px;
+            border-radius: 32px;
+            box-shadow: 0 20px 40px rgba(168, 119, 237, 0.3);
+        }
+
+        .btn-main {
+            display: inline-block;
+            background: #fff; 
+            color: #000;
+            padding: 20px 50px;
+            border-radius: 16px;
+            text-decoration: none;
+            font-weight: 800;
+            text-transform: uppercase;
+            transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .btn-main:hover { 
+            transform: scale(1.05); 
+            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+        }
+
+        footer { text-align: center; padding: 60px 40px; color: #555; font-size: 0.85rem; border-top: 1px solid var(--glass-border); }
+
+        .star { position: absolute; background: white; border-radius: 50%; opacity: 0.4; animation: twinkle var(--duration) infinite ease-in-out; }
+        @keyframes twinkle { 0%, 100% { opacity: 0.2; transform: scale(1); } 50% { opacity: 0.7; transform: scale(1.2); } }
+
+        @media (max-width: 768px) {
+            .section-card.full-width { grid-column: auto; }
+            .section-card.full-width .rule-item { display: block; margin: 15px 0; }
+            .back-link { top: 15px; left: 15px; font-size: 0.6rem; padding: 8px 12px; }
+        }
+    </style>
+</head>
+<body>
+
+    <a href="https://keshushh.github.io/moonawake/" class="back-link">
+        <i class="fas fa-arrow-left"></i>
+        <span>Вернуться назад</span>
+    </a>
+
+    <div id="stars-container"></div>
+
+    <header>
+        <div class="header-content">
+            <h1 id="top">MOONLIGHT<br>BUILD BATTLE</h1>
+            <div class="quick-links">
+                <a href="https://www.twitch.tv/deathawak3" class="nav-card twitch-link" target="_blank">
+                    <i class="fab fa-twitch"></i>
+                    <span>twitch deathawak3</span>
+                </a>
+                <a href="https://t.me/deathawak3" class="nav-card telegram-link" target="_blank">
+                    <i class="fab fa-telegram"></i>
+                    <span>Telegram</span>
+                </a>
+                <a href="https://discord.com/invite/PYS88MECFq" class="nav-card discord-link" target="_blank">
+                    <i class="fab fa-discord"></i>
+                    <span>Discord</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        
+        <div class="section-title">Призовой фонд<br>(донатом в игру)</div>
+        
+        <div class="prizes-grid">
+            <div class="prize-card" style="border-color: var(--gold); background: rgba(255, 207, 75, 0.03);">
+                <i class="fas fa-trophy"></i>
+                <h3>1 МЕСТО</h3>
+                <div class="amount">5 000 ₽</div>
+            </div>
+            <div class="prize-card">
+                <i class="fas fa-medal" style="color: #c0c0c0;"></i>
+                <h3>2 МЕСТО</h3>
+                <div class="amount">3 000 ₽</div>
+            </div>
+            <div class="prize-card">
+                <i class="fas fa-medal" style="color: #cd7f32;"></i>
+                <h3>3 МЕСТО</h3>
+                <div class="amount">2 000 ₽</div>
+            </div>
+        </div>
+
+        <div class="section-title">Регламент события</div>
+        
+        <div class="rules-grid">
+            <section class="section-card">
+                <h2 class="card-head"><i class="fas fa-scroll"></i> Общие правила</h2>
+                <div class="rule-item">Конкурс проходит на версии <strong>1.20.1 forge</strong>.</div>
+                <div class="rule-item">Строительство разрешено только на своём участке.</div>
+                <div class="rule-item">Схемы (Forgematica, Litematica и др.) строго запрещены.</div>
+                <div class="rule-item">Участвуя, вы подтверждаете честную игру.</div>
+            </section>
+
+            <section class="section-card">
+                <h2 class="card-head"><i class="fas fa-calendar-alt"></i> Сроки</h2>
+                <div class="rule-item"><strong>Регистрация:</strong> 3 дня с момента анонса.</div>
+                <div class="rule-item"><strong>Строительство:</strong> 7 полных дней.</div>
+                <div class="rule-item"><strong>Оценка:</strong> В прямом эфире на канале deathawak3.</div>
+            </section>
+
+            <section class="section-card">
+                <h2 class="card-head"><i class="fas fa-shield-halved"></i> Честная игра</h2>
+                <div class="rule-item">Запрещено копирование чужих работ из интернета.</div>
+                <div class="rule-item">Помощь сторонних лиц или участников запрещена.</div>
+                <div class="rule-item">Любые оскорбления ведут к немедленному бану.</div>
+            </section>
+
+            <section class="section-card full-width" style="border-color: rgba(255, 0, 0, 0.2);">
+                <h2 class="card-head"><i class="fas fa-gavel" style="color: #ff4d4d;"></i> Дисквалификация</h2>
+                <div class="rule-item">Любое доказанное нарушение — мгновенный бан и удаление постройки.</div>
+                <div class="rule-item">Решение судейской коллегии окончательное и не подлежит пересмотру.</div>
+            </section>
+        </div>
+
+        <section class="cta-section">
+            <h2 style="color: #fff; font-size: 2rem; margin-bottom: 10px; font-family: 'Unbounded';">Стань участником</h2>
+            <p style="color: rgba(255,255,255,0.9); margin-bottom: 40px; font-size: 1.1rem;">Заполни анкету сейчас, количество мест ограничено!</p>
+            <a href="https://forms.gle/your-link" class="btn-main">Подать заявку</a>
+        </section>
+
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Moonlight Event. Все права защищены силой Лунной Призмы.<br>Created for the community with love.</p>
+    </footer>
+
+    <script>
+        function createStars() {
+            const container = document.getElementById('stars-container');
+            if (!container) return;
+            const starCount = window.innerWidth < 768 ? 40 : 80;
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                const size = Math.random() * 2 + 1 + 'px';
+                star.style.width = size;
+                star.style.height = size;
+                star.style.left = Math.random() * 100 + '%';
+                star.style.top = Math.random() * 100 + '%';
+                star.style.setProperty('--duration', Math.random() * 3 + 2 + 's');
+                star.style.animationDelay = Math.random() * 5 + 's';
+                container.appendChild(star);
+            }
+        }
+        createStars();
+        
+        window.addEventListener('resize', () => {
+            const container = document.getElementById('stars-container');
+            if (container) {
+                container.innerHTML = '';
+                createStars();
+            }
+        });
+    </script>
+</body>
+</html>
