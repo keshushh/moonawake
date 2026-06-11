@@ -22,7 +22,7 @@
             --telegram: #2AABEE;
         }
 
-        /* ── Scroll reveal — идентично главной странице ── */
+        /* ── Scroll reveal ── */
         .reveal,
         .reveal-scale {
             opacity: 0;
@@ -36,7 +36,6 @@
             transform: translateY(0);
         }
 
-        /* Stagger-задержки */
         .reveal-delay-1 { transition-delay: 0.1s; }
         .reveal-delay-2 { transition-delay: 0.2s; }
         .reveal-delay-3 { transition-delay: 0.3s; }
@@ -261,32 +260,42 @@
             box-shadow: 0 20px 40px rgba(168, 119, 237, 0.3);
         }
 
-        .btn-main {
-            display: inline-block;
-            background: #fff; 
-            color: #000;
-            padding: 20px 50px;
-            border-radius: 16px;
-            text-decoration: none;
-            font-weight: 800;
-            text-transform: uppercase;
-            transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        .btn-main:hover { 
-            transform: scale(1.05); 
-            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
-        }
-
         footer { text-align: center; padding: 60px 40px; color: #555; font-size: 0.85rem; border-top: 1px solid var(--glass-border); }
 
         .star { position: absolute; background: white; border-radius: 50%; opacity: 0.4; animation: twinkle var(--duration) infinite ease-in-out; }
         @keyframes twinkle { 0%, 100% { opacity: 0.2; transform: scale(1); } 50% { opacity: 0.7; transform: scale(1.2); } }
 
+        /* ── ТАЙМЕР ── */
+        .timer-container {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 30px;
+            font-family: 'Montserrat', sans-serif;
+        }
+        .timer-block {
+            text-align: center;
+        }
+        .timer-block span {
+            display: block;
+            font-size: 3rem;
+            font-weight: 800;
+            color: #fff;
+            font-family: 'Press Start 2P', monospace;
+        }
+        .timer-block small {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.9);
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
         @media (max-width: 768px) {
             .section-card.full-width { grid-column: auto; }
             .section-card.full-width .rule-item { display: block; margin: 15px 0; }
             .back-link { top: 15px; left: 15px; font-size: 0.6rem; padding: 8px 12px; }
+            .timer-container { gap: 15px; }
+            .timer-block span { font-size: 2rem; }
         }
     </style>
 </head>
@@ -320,8 +329,6 @@
     </header>
 
     <div class="container">
-        
-        <!-- Заголовок секции призов -->
         <div class="section-title reveal">Призовой фонд<br>(донатом в игру)</div>
         
         <div class="prizes-grid">
@@ -342,7 +349,6 @@
             </div>
         </div>
 
-        <!-- Заголовок секции правил -->
         <div class="section-title reveal">Регламент события</div>
         
         <div class="rules-grid">
@@ -366,7 +372,7 @@
                 <div class="rule-item">Запрещено копирование чужих работ из интернета.</div>
                 <div class="rule-item">Помощь сторонних лиц или участников запрещена.</div>
                 <div class="rule-item">Любые оскорбления ведут к немедленному бану.</div>
-              <div class="rule-item">Запрещены пиксель арты.</div>
+                <div class="rule-item">Запрещены пиксель арты.</div>
             </section>
 
             <section class="section-card full-width reveal reveal-delay-4" style="border-color: rgba(255, 0, 0, 0.2);">
@@ -377,9 +383,15 @@
         </div>
 
         <section class="cta-section reveal">
-            <h2 style="color: #fff; font-size: 2rem; margin-bottom: 10px; font-family: 'Unbounded';">Стань участником</h2>
-            <p style="color: rgba(255,255,255,0.9); margin-bottom: 40px; font-size: 1.1rem;">Заполни анкету сейчас, количество мест ограничено!</p>
-            <a href="https://docs.google.com/forms/d/e/1FAIpQLSceNOatJOCfv9NWa7cAQTN6v3iL4fkM_uRHrkteKU001xE6mA/viewform?usp=sharing&ouid=103668086083337087953" class="btn-main">Подать заявку</a>
+            <h2 id="timer-title" style="color: #fff; font-size: 1.8rem; margin-bottom: 20px; font-family: 'Unbounded';">До объявления результатов:</h2>
+            <p style="margin-bottom: 25px; color: #eee;">Объявление победителей пройдёт в прямом эфире на <a href="https://www.twitch.tv/deathawak3" style="color: #fff; font-weight: bold;">Twitch</a>.</p>
+            
+            <div class="timer-container" id="timer">
+                <div class="timer-block"><span id="days">00</span><small>дня</small></div>
+                <div class="timer-block"><span id="hours">00</span><small>часов</small></div>
+                <div class="timer-block"><span id="minutes">00</span><small>минут</small></div>
+                <div class="timer-block"><span id="seconds">00</span><small>секунд</small></div>
+            </div>
         </section>
 
     </div>
@@ -389,7 +401,6 @@
     </footer>
 
     <script>
-        /* ── Звёзды ── */
         function createStars() {
             const container = document.getElementById('stars-container');
             if (!container) return;
@@ -409,28 +420,40 @@
         }
         createStars();
         
-        window.addEventListener('resize', () => {
-            const container = document.getElementById('stars-container');
-            if (container) {
-                container.innerHTML = '';
-                createStars();
-            }
-        });
+        function updateTimer() {
+            // Находим ближайшее воскресенье
+            const now = new Date();
+            const dayOfWeek = now.getDay(); // 0 - воскресенье, 1 - понедельник и т.д.
+            const daysUntilSunday = (7 - dayOfWeek) % 7;
+            
+            const deadline = new Date();
+            deadline.setDate(now.getDate() + daysUntilSunday);
+            deadline.setHours(20, 0, 0, 0); // Установите желаемое время финала в воскресенье, например 20:00
 
-        /* ── Scroll Reveal — идентично главной странице ── */
+            const diff = deadline - now;
+
+            // Если время вышло или сегодня воскресенье
+            if (diff <= 0) {
+                document.getElementById('timer').innerHTML = '<div style="font-size: 1.5rem; font-weight: bold; color: #fff;">Результаты уже сегодня!</div>';
+                document.getElementById('timer-title').innerText = "Финал!";
+                return;
+            }
+
+            document.getElementById('days').innerText = String(Math.floor(diff / (1000 * 60 * 60 * 24))).padStart(2, '0');
+            document.getElementById('hours').innerText = String(Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))).padStart(2, '0');
+            document.getElementById('minutes').innerText = String(Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60))).padStart(2, '0');
+            document.getElementById('seconds').innerText = String(Math.floor((diff % (1000 * 60)) / 1000)).padStart(2, '0');
+        }
+
+        setInterval(updateTimer, 1000);
+        updateTimer();
+
         window.addEventListener("scroll", () => {
             document.querySelectorAll('.reveal, .reveal-scale').forEach(el => {
                 if (el.getBoundingClientRect().top < window.innerHeight - 100) {
                     el.classList.add('visible');
                 }
             });
-        });
-
-        // Проверить при загрузке (элементы, уже видимые без скролла)
-        document.querySelectorAll('.reveal, .reveal-scale').forEach(el => {
-            if (el.getBoundingClientRect().top < window.innerHeight - 100) {
-                el.classList.add('visible');
-            }
         });
     </script>
 </body>
