@@ -41,7 +41,7 @@
         .reveal-delay-3 { transition-delay: 0.3s; }
         .reveal-delay-4 { transition-delay: 0.4s; }
 
-        /* ── Оригинальные стили ── */
+        /* ── Основные стили ── */
         .back-link {
             position: absolute;
             top: 30px;
@@ -183,9 +183,7 @@
             position: relative;
         }
 
-        .prize-card:hover {
-            background: rgba(255, 255, 255, 0.05);
-        }
+        .prize-card:hover { background: rgba(255, 255, 255, 0.05); }
 
         .prize-card i {
             font-size: 3rem;
@@ -212,14 +210,9 @@
             transition: border-color 0.3s;
         }
 
-        .section-card.full-width {
-            grid-column: 1 / -1;
-            text-align: center;
-        }
+        .section-card.full-width { grid-column: 1 / -1; text-align: center; }
 
-        .section-card:hover {
-            border-color: rgba(182, 89, 255, 0.3);
-        }
+        .section-card:hover { border-color: rgba(182, 89, 255, 0.3); }
 
         h2.card-head {
             font-family: 'Unbounded', sans-serif;
@@ -273,15 +266,12 @@
             margin-top: 30px;
             font-family: 'Montserrat', sans-serif;
         }
-        .timer-block {
-            text-align: center;
-        }
+        .timer-block { text-align: center; }
         .timer-block span {
             display: block;
             font-size: 3rem;
             font-weight: 800;
             color: #fff;
-            font-family: 'Press Start 2P', monospace;
         }
         .timer-block small {
             font-size: 1rem;
@@ -292,7 +282,6 @@
 
         @media (max-width: 768px) {
             .section-card.full-width { grid-column: auto; }
-            .section-card.full-width .rule-item { display: block; margin: 15px 0; }
             .back-link { top: 15px; left: 15px; font-size: 0.6rem; padding: 8px 12px; }
             .timer-container { gap: 15px; }
             .timer-block span { font-size: 2rem; }
@@ -393,7 +382,6 @@
                 <div class="timer-block"><span id="seconds">00</span><small>секунд</small></div>
             </div>
         </section>
-
     </div>
 
     <footer class="reveal">
@@ -421,28 +409,28 @@
         createStars();
         
         function updateTimer() {
-            // Находим ближайшее воскресенье
+            // Устанавливаем целевую дату: 14 июня 2026, 14:00 МСК
+            // В JS месяцы начинаются с 0 (июнь = 5)
+            const deadline = new Date(Date.UTC(2026, 5, 14, 11, 0, 0)); // 14:00 МСК = 11:00 UTC
             const now = new Date();
-            const dayOfWeek = now.getDay(); // 0 - воскресенье, 1 - понедельник и т.д.
-            const daysUntilSunday = (7 - dayOfWeek) % 7;
-            
-            const deadline = new Date();
-            deadline.setDate(now.getDate() + daysUntilSunday);
-            deadline.setHours(20, 0, 0, 0); // Установите желаемое время финала в воскресенье, например 20:00
 
             const diff = deadline - now;
 
-            // Если время вышло или сегодня воскресенье
             if (diff <= 0) {
                 document.getElementById('timer').innerHTML = '<div style="font-size: 1.5rem; font-weight: bold; color: #fff;">Результаты уже сегодня!</div>';
                 document.getElementById('timer-title').innerText = "Финал!";
                 return;
             }
 
-            document.getElementById('days').innerText = String(Math.floor(diff / (1000 * 60 * 60 * 24))).padStart(2, '0');
-            document.getElementById('hours').innerText = String(Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))).padStart(2, '0');
-            document.getElementById('minutes').innerText = String(Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60))).padStart(2, '0');
-            document.getElementById('seconds').innerText = String(Math.floor((diff % (1000 * 60)) / 1000)).padStart(2, '0');
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+            document.getElementById('days').innerText = String(days).padStart(2, '0');
+            document.getElementById('hours').innerText = String(hours).padStart(2, '0');
+            document.getElementById('minutes').innerText = String(minutes).padStart(2, '0');
+            document.getElementById('seconds').innerText = String(seconds).padStart(2, '0');
         }
 
         setInterval(updateTimer, 1000);
